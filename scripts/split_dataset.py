@@ -4,16 +4,14 @@ import numpy as np
 from common import log, write_csv_safe
 
 def assign_splits(df: pd.DataFrame, seed: int = 13) -> pd.DataFrame:
-    df = df.copy()
-    rng = np.random.default_rng(seed)
-    rows = df.sample(frac = 1, random_state = seed)
-    n = len(rows)
+    df = df.sample(frac=1, random_state=seed).reset_index(drop=True)  # shuffle + reset index
+    n = len(df)
     train_end = int(0.7 * n)
-    dev_end = int(0.85 * n)
-    rows.loc[:train_end, "split"] = "train"
-    rows.loc[train_end:dev_end, "split"] = "dev"
-    rows.loc[dev_end:,  "split"] = "test"
-    return rows
+    val_end = int(0.85 * n)
+    df.loc[:train_end-1, "split"] = "train"
+    df.loc[train_end:val_end-1, "split"] = "val"
+    df.loc[val_end:, "split"] = "test"
+    return df
 
 def main(inp: str, out: str, seed: int):
     df = pd.read_csv(inp)
