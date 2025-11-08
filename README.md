@@ -1,6 +1,10 @@
 # spanish-fake-news-ai
 Capstone project: detecting AI-generated and fake news in Spanish media
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 69ccf1f4c3a7e27e7c208c53dc706a8d4a1ccbdc
 # Spanish Headline Classifier — REAL / FAKE / AI_GENERATED
 
 **Pipeline:** collect → merge → split → train (baseline + transformer) → evaluate → report.
@@ -20,4 +24,8 @@ python scripts/evaluate.py --transformer --inp data/processed/dataset.csv --mode
 | Model                  | Macro-F1 | REAL F1 | FAKE F1 | AI_GEN F1 |
 |------------------------|---------:|--------:|--------:|----------:|
 | Baseline (TF-IDF + LR) | 0.887    | 0.933   | 0.727   | 1.000     |
+<<<<<<< HEAD
 | BETO L=256 E=3         | 0.970    | 0.976   | 0.933   | 1.000     |
+=======
+| BETO L=256 E=3         | 0.970    | 0.976   | 0.933   | 1.000     |
+>>>>>>> 69ccf1f4c3a7e27e7c208c53dc706a8d4a1ccbdc
