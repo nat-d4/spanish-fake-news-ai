@@ -22,7 +22,18 @@ st.write("Clasifica titulares en **REAL / FAKE / AI_GENERATED** usando un modelo
 # =========================
 # Single prediction
 # =========================
+# ========================= 
+# Single prediction
+# =========================
 st.subheader("Clasificación individual")
+
+def _load_single_examples():
+    st.session_state.single_text = "\n".join([
+        "El Gobierno presenta un plan de inversión en infraestructuras para 2026",
+        "El mundo termina mañana",
+        "Expertos afirman que la situación actual requiere medidas coordinadas a nivel regional",
+    ])
+
 single_text = st.text_area(
     "Escribe un titular en español:",
     height=100,
@@ -34,14 +45,11 @@ col1, col2 = st.columns([1, 1])
 with col1:
     run_single = st.button("Clasificar", key="run_single")
 with col2:
-    load_examples = st.button("Cargar ejemplos", key="load_examples")
-
-if load_examples:
-    st.session_state.single_text = "\n".join([
-        "El Gobierno presenta un plan de inversión en infraestructuras para 2026",
-        "El mundo termina mañana",
-        "Expertos afirman que la situación actual requiere medidas coordinadas a nivel regional",
-    ])
+    load_examples = st.button(
+        "Cargar ejemplos",
+        key="load_examples",
+        on_click=_load_single_examples,
+    )
 
 def show_prob_bars(labels, probs_row):
     st.write("**Probabilidades**")
@@ -49,7 +57,11 @@ def show_prob_bars(labels, probs_row):
         st.progress(float(p), text=f"{lbl}: {float(p):.3f}")
 
 if run_single and single_text.strip():
-    df_single, probs = predict_headlines([single_text.strip()], model_dir=model_dir, max_len=max_len)
+    df_single, probs = predict_headlines(
+        [single_text.strip()],
+        model_dir=model_dir,
+        max_len=max_len,
+    )
     st.write(f"**Predicción:** {df_single.label[0]}  (confianza {df_single.confidence[0]:.3f})")
     show_prob_bars(["REAL", "FAKE", "AI_GENERATED"], probs[0])
     st.download_button(
